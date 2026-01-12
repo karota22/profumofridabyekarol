@@ -1,0 +1,104 @@
+from zipfile import ZipFile
+import shutil, os
+
+base_dir = "/mnt/data/frida_sito_v2"
+os.makedirs(base_dir, exist_ok=True)
+
+# copy image
+shutil.copy("/mnt/data/Scatola profumo.jpg", os.path.join(base_dir, "Scatola profumo.jpg"))
+
+html = """<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frida Parfum</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
+<style>
+body{margin:0;font-family:'Playfair Display',serif;background:#ffe6f7;color:#4a004a}
+nav{position:fixed;width:100%;top:0;background:#ff5fcf;padding:15px;z-index:10}
+nav ul{display:flex;justify-content:center;gap:30px;list-style:none;margin:0;padding:0}
+nav a{text-decoration:none;color:white;font-weight:bold}
+.hero{height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(#ff8adf,#ffd6f0)}
+.hero h1{font-family:'Pacifico',cursive;font-size:90px;margin:0}
+.hero p{font-size:22px;max-width:700px;margin:20px auto}
+.btn{background:#4a004a;color:white;padding:15px 30px;border-radius:40px;text-decoration:none;font-weight:bold}
+section{padding:100px 20px;max-width:1100px;margin:auto}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+img{width:100%;border-radius:30px;box-shadow:0 15px 40px rgba(0,0,0,.25)}
+.card{background:white;border-radius:40px;padding:50px}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px}
+footer{text-align:center;padding:40px;background:#ff5fcf;color:white}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.hero h1{font-size:60px}}
+</style>
+</head>
+
+<body>
+
+<nav>
+<ul>
+<li><a href="#profumo">Il Profumo</a></li>
+<li><a href="#note">Note Olfattive</a></li>
+<li><a href="#gallery">Gallery</a></li>
+<li><a href="#contatti">Contatti</a></li>
+</ul>
+</nav>
+
+<div class="hero">
+<div>
+<h1>Frida</h1>
+<p>Un profumo che celebra la forza dell'identità, la bellezza dell'imperfezione e l'anima libera.</p>
+<a href="#profumo" class="btn">Scopri Frida</a>
+</div>
+</div>
+
+<section id="profumo" class="grid">
+<div>
+<h2>L'essenza di Frida</h2>
+<p>Note floreali intense si intrecciano a spezie calde e accenti profondi. Un viaggio sensoriale tra arte, passione e femminilità.</p>
+<p><strong>Eau de Parfum – 100 ml</strong></p>
+</div>
+<img src="Scatola profumo.jpg">
+</section>
+
+<section id="note">
+<div class="card">
+<h2>Note Olfattive</h2>
+<p><strong>Testa:</strong> Agrumi, fiori esotici</p>
+<p><strong>Cuore:</strong> Gelsomino, rosa, spezie calde</p>
+<p><strong>Fondo:</strong> Legni ambrati, vaniglia, muschio</p>
+</div>
+</section>
+
+<section id="gallery">
+<h2 style="text-align:center">Ispirazione Floreale</h2>
+<div class="gallery">
+<img src="Scatola profumo.jpg">
+<img src="Scatola profumo.jpg">
+<img src="Scatola profumo.jpg">
+</div>
+</section>
+
+<section id="contatti" class="card">
+<h2>Contatti</h2>
+<p>Email: info@fridaparfum.com</p>
+<p>Instagram: @frida.parfum</p>
+</section>
+
+<footer>
+© Frida Parfum – Femminile · Artistico · Libero
+</footer>
+
+</body>
+</html>
+"""
+
+with open(os.path.join(base_dir,"index.html"),"w",encoding="utf-8") as f:
+    f.write(html)
+
+zip_path="/mnt/data/Frida_sito_web_PRO.zip"
+with ZipFile(zip_path,"w") as z:
+    z.write(os.path.join(base_dir,"index.html"),"index.html")
+    z.write(os.path.join(base_dir,"Scatola profumo.jpg"),"Scatola profumo.jpg")
+
+zip_path
